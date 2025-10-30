@@ -393,8 +393,7 @@ def entradas_salidas():
 
     return render_template('entradas_salidas.html', horas_trabajadas=horas_trabajadas)
 
+
 #Todo el codigo de python va antes de este if
 if __name__ == '__main__':
     app.run(port=5500, debug=True)
-
-
