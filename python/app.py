@@ -92,36 +92,50 @@ def index():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password_ingresada= request.form['password']
+        password_ingresada = request.form['password']
+
         cur = mysql.connection.cursor()
+
         cur.execute("""
-        SELECT u.idUsuario, u.nombre, u.password, r.nombreRol
-        FROM usuarios u
-        JOIN usuario_rol ur ON u.idUsuario= ur.idUsuario
-        JOIN roles r ON ur.idRol = r.idRol
-        WHERE u.username = %s
-        """,(username,))
+            SELECT u.idUsuario, u.nombre, u.password, r.nombreRol
+            FROM usuarios u
+            JOIN usuario_rol ur ON u.idUsuario = ur.idUsuario
+            JOIN roles r ON ur.idRol = r.idRol
+            WHERE u.username = %s
+        """, (username,))
         usuario = cur.fetchone()
+
+        # ---------------- VALIDACIÓN ----------------
         if usuario and check_password_hash(usuario[2], password_ingresada):
             session['usuario'] = usuario[1]
             session['idUsuario'] = usuario[0]
             session['rol'] = usuario[3]
-            flash(f"¡Bienvenido {usuario[1]}!")
+
+            # Registrar fecha de login
             cur.execute("""
-            INSERT INTO registro_login(idUsuario, fecha)
-            VALUES (%s, NOW())
+                INSERT INTO registro_login(idUsuario, fecha)
+                VALUES (%s, NOW())
             """, (usuario[0],))
             mysql.connection.commit()
-            cur.close
-            if usuario[3] == 'admin':
+
+            flash(f"¡Bienvenido {usuario[1]}!")
+
+            cur.close()
+
+            # Redirección según rol
+            if usuario[3].lower() == 'admin':
                 return redirect(url_for('dashboard'))
-            elif usuario[3] == 'usuario':
+            elif usuario[3].lower() == 'usuario':
                 return redirect(url_for('movimientos'))
             else:
                 flash('Rol de usuario no reconocido.')
                 return redirect(url_for('login'))
+
         else:
             flash('Usuario o contraseña incorrecta.')
+
+        cur.close()
+
     return render_template('login.html')
 @app.route('/logout')
 def logout():
@@ -334,6 +348,7 @@ def movimientos():
     cur.close()
 
     return render_template('movimientos.html', movimientos=movimientos)
+
 
 # RUTA: Registrar entrada
 

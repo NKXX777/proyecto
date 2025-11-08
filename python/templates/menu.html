@@ -1,9 +1,12 @@
 <!-- Navbar fija y funcional -->
-<nav class="navbar navbar-expand-sm navbar-dark bg-danger fixed-top">
+<nav class="navbar navbar-expand-sm navbar-dark bg-danger fixed-top shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('index') }}" target="_parent">Mi empresa</a>
+    <!-- Logo / Nombre de empresa -->
+    <a class="navbar-brand fw-bold text-white" href="{{ url_for('index') }}" target="_parent">
+      Mi empresa
+    </a>
 
-    <!-- Botón para pantallas pequeñas -->
+    <!-- Botón hamburguesa para móviles -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarID"
       aria-controls="navbarID" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -14,11 +17,7 @@
       <!-- Enlaces principales -->
       <ul class="navbar-nav me-auto mb-2 mb-sm-0">
         <li class="nav-item">
-          <a class="nav-link text-white" href="#"></a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link text-white" href="{{ url_for('entradas_salidas') }}">Horas trabajadas</a>
-        </li>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="{{ url_for('movimientos') }}">Movimientos</a>
@@ -26,18 +25,30 @@
       </ul>
 
       <!-- Enlaces de sesión -->
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto align-items-center">
         {% if session.get('usuario') %}
+          <!-- Mostrar nombre del usuario logueado -->
+          <li class="nav-item me-3">
+            <span class="nav-link text-white fw-semibold">
+               Hola, {{ session['usuario'] }}
+            </span>
+          </li>
+
+          <!-- Botón de cerrar sesión -->
           <li class="nav-item">
-            <a class="nav-link text-white" href="{{ url_for('login') }}">Cerrar sesión</a>
+            <a class="nav-link text-white fw-bold" href="{{ url_for('logout') }}">
+              Cerrar sesión
+            </a>
           </li>
         {% else %}
+          <!-- Si no hay sesión activa -->
           <li class="nav-item">
-            <a class="nav-link text-white" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-link text-white fw-bold" href="{{ url_for('login') }}">
+              Iniciar sesión
+            </a>
           </li>
         {% endif %}
       </ul>
     </div>
   </div>
 </nav>
-
