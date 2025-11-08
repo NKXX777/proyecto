@@ -1,49 +1,60 @@
 <!-- Navbar fija y funcional -->
 <nav class="navbar navbar-expand-sm navbar-dark bg-danger fixed-top shadow-sm">
-  <div class="container-fluid">
+  <div class="container-fluid px-3">
+
     <!-- Logo / Nombre de empresa -->
-    <a class="navbar-brand fw-bold text-white" href="{{ url_for('index') }}" target="_parent">
-      Mi empresa
+    <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('index') }}" target="_parent">
+      <img src="{{ url_for('static', filename='img/rgislogo1.png') }}" alt="Logo" width="38" height="38" class="rounded-circle border border-light">
+      Mi Empresa
     </a>
 
     <!-- Botón hamburguesa para móviles -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarID"
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarID"
       aria-controls="navbarID" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Contenido del menú -->
     <div class="collapse navbar-collapse" id="navbarID">
+
       <!-- Enlaces principales -->
       <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ url_for('entradas_salidas') }}">Horas trabajadas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ url_for('movimientos') }}">Movimientos</a>
-        </li>
+        {% if session.get('usuario') %}
+          <li class="nav-item">
+            <a class="nav-link text-white fw-semibold px-3 {% if request.endpoint == 'entradas_salidas' %}active{% endif %}"
+               href="{{ url_for('entradas_salidas') }}">
+              Horas trabajadas
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white fw-semibold px-3 {% if request.endpoint == 'movimientos' %}active{% endif %}"
+               href="{{ url_for('movimientos') }}">
+              Movimientos
+            </a>
+          </li>
+        {% endif %}
       </ul>
 
       <!-- Enlaces de sesión -->
-      <ul class="navbar-nav ms-auto align-items-center">
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
         {% if session.get('usuario') %}
-          <!-- Mostrar nombre del usuario logueado -->
-          <li class="nav-item me-3">
+          <!-- Saludo -->
+          <li class="nav-item">
             <span class="nav-link text-white fw-semibold">
-               Hola, {{ session['usuario'] }}
+              👋 Hola, {{ session['usuario'] }}
             </span>
           </li>
 
-          <!-- Botón de cerrar sesión -->
+          <!-- Botón cerrar sesión -->
           <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="{{ url_for('logout') }}">
+            <a class="btn btn-outline-light btn-sm fw-bold px-3 py-1" href="{{ url_for('logout') }}">
               Cerrar sesión
             </a>
           </li>
         {% else %}
-          <!-- Si no hay sesión activa -->
+          <!-- Iniciar sesión -->
           <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="{{ url_for('login') }}">
+            <a class="btn btn-light text-danger fw-bold px-3 py-1" href="{{ url_for('login') }}">
               Iniciar sesión
             </a>
           </li>
@@ -52,3 +63,28 @@
     </div>
   </div>
 </nav>
+
+<style>
+  .navbar-nav .nav-link {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border-radius: 0.5rem;
+  }
+
+  .navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .navbar-nav .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .btn-outline-light:hover {
+    background-color: #fff;
+    color: #dc3545 !important;
+  }
+
+  .btn-light:hover {
+    background-color: #f8d7da;
+  }
+</style>

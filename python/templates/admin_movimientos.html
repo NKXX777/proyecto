@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Movimientos Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Todos los Movimientos de Usuarios</h2>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Tipo</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in movimientos %}
+            <tr>
+                <td>{{ m.idMovimiento }}</td>
+                <td>{{ m.nombre }} {{ m.apellido }}</td>
+                <td>{{ m.tipo }}</td>
+                <td>{{ m.fecha }}</td>
+                <td>{{ m.hora }}</td>
+                <td>
+                    <a href="{{ url_for('editar_movimiento', id=m.idMovimiento) }}" class="btn btn-sm btn-primary">Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

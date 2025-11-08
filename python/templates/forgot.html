@@ -3,29 +3,34 @@
 {% block title %}Recuperar Contraseña{% endblock %}
 
 {% block content %}
-<section class="bg-light py-3 py-md-5">
+<section class="bg-light py-5">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-        <div class="card border border-light-subtle rounded-3 shadow-sm">
-          <div class="card-body p-4">
+        <div class="card border-0 rounded-4 shadow-lg">
+          <div class="card-body p-4 p-md-5">
 
+            <!-- Logo -->
             <div class="text-center mb-4">
               <a href="{{ url_for('login') }}">
                 <img src="{{ url_for('static', filename='img/rgislogo1.png') }}" 
                      alt="Logo del sistema" 
-                     width="320"
-                     class="img-fluid">
+                     class="img-fluid" 
+                     style="max-width: 220px;">
               </a>
             </div>
 
-            <h2 class="fs-6 fw-normal text-center text-secondary mb-4">
-              Ingresa el correo electrónico asociado a tu cuenta para recuperar tu contraseña.
-            </h2>
+            <!-- Título -->
+            <h3 class="fw-bold text-center text-danger mb-3">
+              Recuperar Contraseña
+            </h3>
+            <p class="text-center text-secondary small mb-4">
+              Ingresa el correo electrónico asociado a tu cuenta y te enviaremos instrucciones para restablecerla.
+            </p>
 
-            
+            <!-- Formulario -->
             <form action="{{ url_for('forgot') }}" method="POST">
-              <div class="form-floating mb-3">
+              <div class="form-floating mb-4">
                 <input 
                   type="email" 
                   class="form-control" 
@@ -36,18 +41,20 @@
                 <label for="email">Correo electrónico</label>
               </div>
 
+              <!-- Botón -->
               <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-danger btn-lg">
-                  Recuperar contraseña
+                <button type="submit" class="btn btn-danger btn-lg fw-semibold shadow-sm">
+                  Enviar enlace de recuperación
                 </button>
               </div>
 
-              <div class="text-center">
-                <a href="{{ url_for('login') }}" class="link-primary text-decoration-none d-block mb-1">
-                  Iniciar sesión
+              <!-- Enlaces inferiores -->
+              <div class="text-center mt-3">
+                <a href="{{ url_for('login') }}" class="text-decoration-none text-danger fw-semibold d-block mb-1">
+                  <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
                 </a>
-                <a href="{{ url_for('registro') }}" class="link-primary text-decoration-none">
-                  Registrarse
+                <a href="{{ url_for('registro') }}" class="text-decoration-none text-secondary">
+                  <i class="bi bi-person-plus"></i> Crear cuenta nueva
                 </a>
               </div>
             </form>
@@ -59,3 +66,5 @@
   </div>
 </section>
 {% endblock %}
+
+

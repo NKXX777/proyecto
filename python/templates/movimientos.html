@@ -2,45 +2,113 @@
 {% block title %}Registro de Movimientos{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h3 class="mb-4 text-center">Registro de Entradas y Salidas</h3>
+<div class="container mt-5 mb-5">
 
-  <div class="d-flex justify-content-center mb-3">
-      <form action="{{ url_for('registrar_entrada', id_usuario=session.get('idUsuario', 0)) }}" method="POST" class="me-2">
-      <button type="submit" class="btn btn-success">Registrar Entrada</button>
+  <!-- Título -->
+  <h2 class="text-center fw-bold mb-4 text-danger">
+    <i class="bi bi-clock-history me-2"></i> Registro de Entradas y Salidas
+  </h2>
+
+  <!-- Botones de acción -->
+  <div class="d-flex justify-content-center flex-wrap gap-3 mb-4">
+    <!-- Botón de entrada -->
+    <form action="{{ url_for('registrar_entrada', id_usuario=session.get('idUsuario', 0)) }}" method="POST">
+      <button type="submit" class="btn btn-success btn-lg shadow d-flex align-items-center gap-2 px-4">
+        <i class="bi bi-box-arrow-in-right fs-5"></i> Registrar Entrada
+      </button>
     </form>
-   <form action="{{ url_for('registrar_salida', id_usuario=session.get('idUsuario', 0)) }}" method="POST" class="me-2">
-      <button type="submit" class="btn btn-danger">Registrar Salida</button>
+
+    <!-- Botón de salida -->
+    <form action="{{ url_for('registrar_salida', id_usuario=session.get('idUsuario', 0)) }}" method="POST">
+      <button type="submit" class="btn btn-danger btn-lg shadow d-flex align-items-center gap-2 px-4">
+        <i class="bi bi-box-arrow-right fs-5"></i> Registrar Salida
+      </button>
     </form>
   </div>
 
-  <table class="table table-bordered table-hover text-center">
-    <thead class="table-light">
-      <tr>
-        <th>ID</th>
-        <th>Usuario</th>
-        <th>Tipo</th>
-        <th>Fecha</th>
-        <th>Hora</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for m in movimientos %}
-      <tr>
-        <td>{{ m.idMovimiento }}</td>
-        <td>{{ m.nombre }} {{ m.apellido }}</td>
-        <td>
-          {% if m.tipo == 'Entrada' %}
-          <span class="badge bg-success">{{ m.tipo }}</span>
-          {% else %}
-          <span class="badge bg-danger">{{ m.tipo }}</span>
-          {% endif %}
-        </td>
-        <td>{{ m.fecha }}</td>
-        <td>{{ m.hora }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <!-- Tabla de movimientos -->
+  <div class="card shadow border-0">
+    <div class="card-header bg-danger text-white text-center fw-bold">
+      Historial de Movimientos
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle text-center mb-0">
+          <thead class="table-danger">
+            <tr>
+              <th>ID</th>
+              <th>Usuario</th>
+              <th>Tipo</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if movimientos %}
+              {% for m in movimientos %}
+              <tr>
+                <td>{{ m.idMovimiento }}</td>
+                <td>{{ m.nombre }} {{ m.apellido }}</td>
+                <td>
+                  {% if m.tipo == 'Entrada' %}
+                    <span class="badge bg-success px-3 py-2">
+                      <i class="bi bi-door-open me-1"></i>{{ m.tipo }}
+                    </span>
+                  {% else %}
+                    <span class="badge bg-danger px-3 py-2">
+                      <i class="bi bi-door-closed me-1"></i>{{ m.tipo }}
+                    </span>
+                  {% endif %}
+                </td>
+                <td>{{ m.fecha }}</td>
+                <td>{{ m.hora }}</td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="5" class="text-muted py-4">No hay registros disponibles.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Íconos de Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+  h2 {
+    letter-spacing: 0.5px;
+  }
+
+  .btn {
+    transition: all 0.25s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .badge {
+    font-size: 1rem;
+  }
+
+  .card {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .table thead th {
+    vertical-align: middle;
+    font-weight: 600;
+  }
+
+  .table tbody tr:hover {
+    background-color: rgba(255, 0, 0, 0.05);
+  }
+</style>
 {% endblock %}

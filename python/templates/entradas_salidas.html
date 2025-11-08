@@ -2,34 +2,48 @@
 {% block title %}Horas Trabajadas{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h3 class="text-center mb-4">Total de Horas Trabajadas</h3>
+<div class="container my-5">
 
-  <table class="table table-bordered table-hover text-center">
-    <thead class="table-light">
-      <tr>
-        <th>ID Usuario</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Total Horas Trabajadas</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for h in horas_trabajadas %}
-      <tr>
-        <td>{{ h.idUsuario }}</td>
-        <td>{{ h.nombre }}</td>
-        <td>{{ h.apellido }}</td>
-        <td>
-          {% if h.total_horas %}
-            {{ h.total_horas }}
-          {% else %}
-            <span class="text-muted">Sin registro</span>
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="text-center mb-4">
+    <h3 class="fw-bold text-danger">📊 Total de Horas Trabajadas</h3>
+    <hr class="w-25 mx-auto border-danger opacity-75">
+  </div>
+
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-striped align-middle text-center mb-0">
+      <thead class="table-danger">
+        <tr>
+          <th>ID Usuario</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Total Horas Trabajadas</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for h in horas_trabajadas %}
+        <tr>
+          <td>{{ h.idUsuario }}</td>
+          <td>{{ h.nombre }}</td>
+          <td>{{ h.apellido }}</td>
+          <td>
+            {% if h.total_horas %}
+              <span class="badge bg-success px-3 py-2 fs-6">{{ h.total_horas }}</span>
+            {% else %}
+              <span class="text-muted fst-italic">Sin registro</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if horas_trabajadas|length == 0 %}
+  <div class="alert alert-warning mt-4 text-center shadow-sm" role="alert">
+    <i class="bi bi-exclamation-circle"></i> No hay registros de horas trabajadas.
+  </div>
+  {% endif %}
+
 </div>
 {% endblock %}
+

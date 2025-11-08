@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Movimiento{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Editar Movimiento #{{ movimiento[0] }}</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Tipo</label>
+            <select name="tipo" class="form-select" required>
+                <option value="Entrada" {% if movimiento[1]=='Entrada' %}selected{% endif %}>Entrada</option>
+                <option value="Salida" {% if movimiento[1]=='Salida' %}selected{% endif %}>Salida</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Fecha</label>
+            <input type="date" name="fecha" class="form-control" value="{{ movimiento[2] }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Hora</label>
+            <input type="time" name="hora" class="form-control" value="{{ movimiento[3] }}" required>
+        </div>
+        <button type="submit" class="btn btn-success">Actualizar</button>
+        <a href="{{ url_for('admin_movimientos') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
+
